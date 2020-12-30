@@ -5,8 +5,22 @@ project(ugc C CXX)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-add_library(ugc SHARED src/ugc.c)
+set(ugc_lib_sources
+        src/ugc.c)
+
+if (APPLE)
+    list(APPEND ugc_lib_sources
+            src/growheap_darwin.c)
+elseif (LINUX)
+    list(APPEND ugc_lib_sources
+            src/growheap_linux.c)
+else()
+    message(FATAL "unsupported platform: Please use Linux or Darwin")
+endif ()
+
+add_library(ugc SHARED ${ugc_lib_sources})
 target_include_directories(ugc PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
 install(DIRECTORY include DESTINATION .)
 install(TARGETS ugc DESTINATION lib)
 
