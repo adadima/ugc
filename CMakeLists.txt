@@ -5,6 +5,8 @@ project(ugc C CXX)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+add_compile_options(-fno-omit-frame-pointer)
+
 set(ugc_lib_sources
         src/ugc.c)
 
